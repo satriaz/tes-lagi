@@ -1,4 +1,4 @@
-from telegram import Update, ReplyKeyboardMarkup
+from telegram import Update, ReplyKeyboardMarkup  # Added import statement
 from telegram.ext import Updater, CommandHandler, CallbackContext, ConversationHandler, MessageHandler, Filters
 
 TOKEN = '7499366859:AAEQS4vSRxoCawlMypQ7ZtYryHRn_1Uso2M'
@@ -39,6 +39,9 @@ def select_reminder(update: Update, context: CallbackContext) -> int:
     else:
         update.message.reply_text('Invalid reminder selection.')
     return ConversationHandler.END
+
+def help_command(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text('This is the help command.')
 
 def main() -> None:
     updater = Updater(TOKEN)
