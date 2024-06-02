@@ -10,12 +10,26 @@ def start(update: Update, context: CallbackContext) -> None:
     update.message.reply_text('Hello! Send /set <remaining_energy> to set a reminder when your energy is full.')
 
 def set_timer(update: Update, context: CallbackContext) -> None:
-    # Existing set_timer function
-    pass
+    chat_id = update.message.chat_id
+    try:
+        remaining_energy = int(context.args[0])
+        time_to_full = (240 - remaining_energy) * 6 * 60
+        hours, remainder = divmod(time_to_full, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        context.job_queue.run_once(remind, time_to_full, context=chat_id)
+        if chat_id not in active_reminders:
+            active_reminders[chat_id] = []
+        active_reminders[chat_id].append(time_to_full)
+        update.message.reply_text(f'Timer set! I will remind you when your energy is full in about {hours} hours and {minutes} minutes.')
+    except (IndexError, ValueError):
+        update.message.reply_text('Usage: /set <remaining_energy>')
 
 def remind(context: CallbackContext) -> None:
-    # Existing remind function
-    pass
+    job = context.job
+    chat_id = job.context
+    context.bot.send_message(chat_id, text='Your energy is now full!')
+    if chat_id in active_reminders:
+        active_reminders[chat_id].remove(job.remaining_time)
 
 def cancel(update: Update, context: CallbackContext) -> None:
     update.message.reply_text('Send /list to view active reminders.')
