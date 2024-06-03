@@ -2,7 +2,7 @@ import os
 from telegram import Update
 from telegram.ext import Updater, CommandHandler, CallbackContext
 
-TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN'
+TOKEN = '7499366859:AAEQS4vSRxoCawlMypQ7ZtYryHRn_1Uso2M'
 
 active_reminders = {}
 reminder_counter = 1
