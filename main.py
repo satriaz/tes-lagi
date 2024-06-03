@@ -44,19 +44,8 @@ def cancel_reminder(update: Update, context: CallbackContext) -> None:
     else:
         update.message.reply_text('No active reminders found.')
 
-def list_reminders(update: Update, context: CallbackContext) -> None:
-    chat_id = update.message.chat_id
-    if chat_id in active_reminders:
-        if active_reminders[chat_id]:
-            reminders_list = '\n'.join([f'Reminder {i+1}: {time_to_full//3600} hours and {(time_to_full%3600)//60} minutes' for i, time_to_full in enumerate(active_reminders[chat_id])])
-            update.message.reply_text(f'Active reminders:\n{reminders_list}')
-        else:
-            update.message.reply_text('No active reminders found.')
-    else:
-        update.message.reply_text('No active reminders found.')
-
 def help_command(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text('/start - Start the bot\n/set <remaining_energy> - Set a reminder when your energy is full\n/cancel - Cancel the last set reminder\n/list - List active reminders')
+    update.message.reply_text('/start - Start the bot\n/set <remaining_energy> - Set a reminder when your energy is full\n/cancel - Cancel the last set reminder')
 
 def main() -> None:
     updater = Updater(TOKEN)
